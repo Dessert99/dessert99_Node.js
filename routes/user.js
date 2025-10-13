@@ -31,4 +31,17 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+router.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    //유저 정보가 있는지 확인
+    const user = await User.findOne({ username }).select('+password'); // 비밀번호까지 가져오는 쿼리문
+
+    if (!user) {
+      return res.status('401').json({ message: '사용자를 찾을 수 없습니다.' });
+    }
+  } catch (error) {}
+});
+
 module.exports = router;
